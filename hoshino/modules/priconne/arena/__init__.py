@@ -19,7 +19,11 @@ aliases = ('怎么拆', '怎么解', '怎么打', '如何拆', '如何解', '如
 aliases_b = tuple('b' + a for a in aliases) + tuple('B' + a for a in aliases)
 aliases_tw = tuple('台' + a for a in aliases)
 aliases_jp = tuple('日' + a for a in aliases)
-
+#1为日服 2为B站 改为默认B站
+@sv.on_command('竞技场查询', aliases=aliases, deny_tip=DISABLE_NOTICE, only_to_me=False)
+async def arena_query(session:CommandSession):
+    await _arena_query(session, region=2)
+"""
 @sv.on_command('竞技场查询', aliases=aliases, deny_tip=DISABLE_NOTICE, only_to_me=False)
 async def arena_query(session:CommandSession):
     await _arena_query(session, region=1)
@@ -27,7 +31,7 @@ async def arena_query(session:CommandSession):
 @sv.on_command('b竞技场查询', aliases=aliases_b, deny_tip=DISABLE_NOTICE, only_to_me=False)
 async def arena_query_b(session:CommandSession):
     await _arena_query(session, region=2)
-
+"""
 @sv.on_command('台竞技场查询', aliases=aliases_tw, deny_tip=DISABLE_NOTICE, only_to_me=False)
 async def arena_query_tw(session:CommandSession):
     await _arena_query(session, region=3)
