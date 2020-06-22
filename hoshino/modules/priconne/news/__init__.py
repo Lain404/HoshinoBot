@@ -4,6 +4,8 @@ from .spider import *
 svtw = Service('pcr-news-tw')
 svbl = Service('pcr-news-bili')
 
+#注释掉日文部分
+
 async def news_poller(spider:BaseSpider, sv:Service, TAG):
     if not spider.item_cache:
         await spider.get_update()
