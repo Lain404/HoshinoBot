@@ -45,7 +45,7 @@ setu_gener = setu_gener()
 def get_setu():
     return setu_gener.__next__()
 
-@sv.on_rex(re.compile(r'我还能冲|我还可以冲|我身体很好'), normalize=True)
+@sv.on_rex(re.compile(r'我还能冲|我还可以冲|我身体很好所以有什么[涩瑟色]图尽管发给我'), normalize=True)
 async def seturefresh(bot:NoneBot, ctx, match):	
     uid = ctx['user_id']
     _nlmt.reset(uid)
