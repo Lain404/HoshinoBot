@@ -14,14 +14,14 @@ from .gacha import Gacha
 from ..chara import Chara
 
 sv = Service('gacha')
-jewel_limit = DailyNumberLimiter(9000)
-tenjo_limit = DailyNumberLimiter(5)
+jewel_limit = DailyNumberLimiter(6000)
+tenjo_limit = DailyNumberLimiter(1)
 
 GACHA_DISABLE_NOTICE = '本群转蛋功能已禁用\n如欲开启，请与维护组联系'
 JEWEL_EXCEED_NOTICE = f'您今天已经抽过{jewel_limit.max}钻了，欢迎明早5点后再来！'
 TENJO_EXCEED_NOTICE = f'您今天已经抽过{tenjo_limit.max}张天井券了，欢迎明早5点后再来！'
 SWITCH_POOL_TIP = 'β>发送"选择卡池"可切换'
-POOL = ( 'BL','JP', 'TW', 'MIX',"QUN")
+POOL = ('MIX', 'JP', 'TW', 'BL')
 DEFAULT_POOL = POOL[0]
 
 _pool_config_file = os.path.expanduser('~/.hoshino/group_pool_config.json')
@@ -67,7 +67,7 @@ async def set_pool(session:CommandSession):
     if not name:
         session.finish(POOL_NAME_TIP, at_sender=True)
     elif name in ('国', '国服', 'cn'):
-        session.finish('请选择以下卡池\n> 选择卡池 b服\n> 选择卡池 台服\n> ')
+        session.finish('请选择以下卡池\n> 选择卡池 b服\n> 选择卡池 台服')
     elif name in ('b', 'b服', 'bl', 'bilibili'):
         name = 'BL'
     elif name in ('台', '台服', 'tw', 'sonet'):
@@ -76,8 +76,6 @@ async def set_pool(session:CommandSession):
         name = 'JP'
     elif name in ('混', '混合', 'mix'):
         name = 'MIX'
-    elif name in ('群', '群员', '苍蓝星','狗托'):
-        name = 'QUN'		
     else:
         session.finish(f'未知服务器地区 {POOL_NAME_TIP}', at_sender=True)
     gid = str(session.ctx['group_id'])
@@ -116,7 +114,7 @@ async def gacha_1(session:CommandSession):
         res = f'{chara.icon.cqcode} {res}'
 
     await silence(session.ctx, silence_time)
-    await session.send(f'奇怪的收藏增加了！\n{res}\n{SWITCH_POOL_TIP}', at_sender=True)
+    await session.send(f'素敵な仲間が増えますよ！\n{res}\n{SWITCH_POOL_TIP}', at_sender=True)
 
 
 @sv.on_command('gacha_10', deny_tip=GACHA_DISABLE_NOTICE, aliases=gacha_10_aliases, only_to_me=True)
@@ -149,8 +147,8 @@ async def gacha_10(session:CommandSession):
         res = f'{res1}\n{res2}'
 
     if hiishi >= SUPER_LUCKY_LINE:
-        await session.send('恭喜海豹！--你的喜悦我鲨某人收到了--')
-    await session.send(f'奇怪的收藏增加了！\n{res}\n{SWITCH_POOL_TIP}', at_sender=True)
+        await session.send('恭喜海豹！おめでとうございます！')
+    await session.send(f'素敵な仲間が増えますよ！\n{res}\n{SWITCH_POOL_TIP}', at_sender=True)
     await silence(session.ctx, silence_time)
 
 
@@ -185,7 +183,7 @@ async def gacha_300(session:CommandSession):
         res = MessageSegment.image(res)
 
     msg = [
-        f"\n奇怪的收藏增加了！ {res}",
+        f"\n素敵な仲間が増えますよ！ {res}",
         f"★★★×{up+s3} ★★×{s2} ★×{s1}",
         f"获得记忆碎片×{100*up}与女神秘石×{50*(up+s3) + 10*s2 + s1}！\n第{result['first_up_pos']}抽首次获得up角色" if up else f"获得女神秘石{50*(up+s3) + 10*s2 + s1}个！"
     ]
@@ -222,16 +220,14 @@ async def gacha_300(session:CommandSession):
 
 @sv.on_rex(r'^氪金$', normalize=False)
 async def kakin(bot: NoneBot, ctx, match):
-    count = 0
     if ctx['user_id'] not in bot.config.SUPERUSERS:
-        count = 0
-
-    #count = 0
-    #for m in ctx['message']:
-        #if m.type == 'at' and m.data['qq'] != 'all':
-    uid = int(m.data['qq'])
-    jewel_limit.reset(uid)
-    tenjo_limit.reset(uid)
-    count += 1
+        return
+    count = 0
+    for m in ctx['message']:
+        if m.type == 'at' and m.data['qq'] != 'all':
+            uid = int(m.data['qq'])
+            jewel_limit.reset(uid)
+            tenjo_limit.reset(uid)
+            count += 1
     if count:
         await bot.send(ctx, f"已为{count}位用户充值完毕！谢谢惠顾～")
