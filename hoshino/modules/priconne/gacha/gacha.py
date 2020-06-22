@@ -6,7 +6,7 @@ from ..chara import Chara
 
 class Gacha(object):
 
-    def __init__(self, pool_name:str="BL"):
+    def __init__(self, pool_name:str="MIX"):
         super().__init__()
         self.load_pool(pool_name)
 

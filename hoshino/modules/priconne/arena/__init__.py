@@ -15,7 +15,7 @@ DISABLE_NOTICE = '本群竞技场查询功能已禁用\n如欲开启，请与维
 
 lmt = FreqLimiter(5)
 
-aliases = ('怎么拆', '怎么解', '怎么打', '如何拆', '如何解', '如何打', '拆', '如何破', '怎么破', 'jjc查询', 'jjc查詢')
+aliases = ('怎么拆', '怎么解', '怎么打', '如何拆', '如何解', '如何打', '怎麼拆', '怎麼解', '怎麼打', 'jjc查询', 'jjc查詢')
 aliases_b = tuple('b' + a for a in aliases) + tuple('B' + a for a in aliases)
 aliases_tw = tuple('台' + a for a in aliases)
 aliases_jp = tuple('日' + a for a in aliases)
@@ -100,11 +100,11 @@ async def _arena_query(session:CommandSession, region:int):
 
     msg = [
         defen,
-        f'喏~{at}：',
+        f'已为骑士{at}查询到以下进攻方案：',
         str(atk_team),
-        f'作业评价：',
+        f'作业评价：', 
         *details,
-        #'※发送"点赞/点踩"可进行评价'
+        '※发送"点赞/点踩"可进行评价'
     ]
     if region == 1:
         msg.append('※使用"b怎么拆"或"台怎么拆"可按服过滤')
