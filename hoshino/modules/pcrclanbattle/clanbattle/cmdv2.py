@@ -121,7 +121,8 @@ async def list_member(bot:NoneBot, ctx:Context_T, args:ParseResult):
     bm = BattleMaster(ctx['group_id'])
     clan = _check_clan(bm)
     mems = bm.list_member(1)
-    if l := len(mems):
+    #更改  本来是 ：=
+    if l <=len(mems):
         # 数字太多会被腾讯ban
         mems = map(lambda x: '{uid: <11,d} | {name}'.format_map(x), mems)
         msg = [ f"\n{clan['name']}   {l}/30 人\n____ QQ ____ | 昵称", *mems]
@@ -130,9 +131,8 @@ async def list_member(bot:NoneBot, ctx:Context_T, args:ParseResult):
         raise NotFoundError(ERROR_ZERO_MEMBER)
 
 
-@cb_cmd('退会', ArgParser(usage='!退会 (@qq)', arg_dict={
-        '@': ArgHolder(tip='qq号', type=int, default=0)}))
-async def del_member(bot:NoneBot, ctx:Context_T, args:ParseResult):
+@cb_cmd('退会', ArgParser(usage='!退会 (@qq)', arg_dict={'@': ArgHolder(tip='qq号', type=int, default=0)}))
+async def del_member(bot: NoneBot, ctx: Context_T, args: ParseResult):
     bm = BattleMaster(ctx['group_id'])
     uid = args['@'] or args.at or ctx['user_id']
     mem = _check_member(bm, uid, bm.group, '公会内无此成员')
@@ -140,6 +140,7 @@ async def del_member(bot:NoneBot, ctx:Context_T, args:ParseResult):
         _check_admin(ctx, '才能踢人')
     bm.del_member(uid, mem['alt'])
     await bot.send(ctx, f"成员{mem['name']}已从公会删除", at_sender=True)
+
 
 
 @cb_cmd('清空成员', ArgParser('!清空成员'))

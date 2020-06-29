@@ -11,7 +11,7 @@ from .argparse import ArgParser
 from .exception import *
 
 sv = Service('clanbattle', manage_priv=Privilege.SUPERUSER, enable_on_default=True)
-SORRY = 'ごめんなさい！嘤嘤嘤(〒︿〒)'
+SORRY = 'Sorry locate clb. __ini__'
 
 _registry:Dict[str, Tuple[Callable, ArgParser]] = {}
 
@@ -77,8 +77,8 @@ QUICK_START = f'''
 ※命令与参数之间必须以【空格】隔开
 ※下面以使用场景-使用例给出常用指令的说明
 【群初次使用】
-!建会 N自警団（カォン） Sjp
-!建会 N哞哞自衛隊 Stw
+!建会 N自警団（カォン） Sjp (日文）
+!建会 N哞哞自衛隊 Stw      （繁体）
 !建会 N自卫团 Scn
 【注册成员】
 !入会 祐树

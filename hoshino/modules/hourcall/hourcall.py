@@ -39,7 +39,7 @@ async def hour_call():
         msg = [ f'{pic} '  ]
         await sv.broadcast(msg, 'hourcall', 0)
         return
-    pic = R.img(f"timer{random.randint(1, 2)}.jpg").cqcode
+    pic = R.img(f"mmt{random.randint(1, 30)}.jpg").cqcode
     msg = [ f'现在是{now.hour}点咯~~\n{pic} '  ]
     await sv.broadcast(msg, 'hourcall', 0)
     #msg = [ f'{pic} 【{i[2].strftime(r"%Y-%m-%d %H:%M")}】\n▲下载 {i[0]}' for i in new_bangumi ]    
